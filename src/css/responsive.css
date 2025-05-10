@@ -1,0 +1,88 @@
+/* Responsive Layout */
+@media (min-width: 640px) {
+  .diet-options {
+    flex-direction: row;
+    gap: 1.5rem;
+  }
+}
+
+@media (min-width: 768px) {
+  .container {
+    padding: 0 3rem;
+  }
+  
+  .nav {
+    display: flex !important;
+    gap: 1.5rem;
+  }
+  
+  .mobile-menu-button {
+    display: none !important;
+  }
+  
+  .recipe-detail-content {
+    grid-template-columns: 1fr 1fr;
+    align-items: start;
+  }
+  
+  .recipe-detail-image-container {
+    position: sticky;
+    top: 2rem;
+  }
+  
+  .recipe-detail-header {
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+  }
+  
+  .recipe-detail-title {
+    order: 1;
+  }
+  
+  .back-button {
+    order: 0;
+  }
+  
+  .recipe-type {
+    order: 2;
+  }
+  
+  .recipe-detail-info {
+    flex: 1;
+  }
+  
+  .search-and-filter {
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+  }
+  
+  .video-container {
+    border-radius: 0.75rem;
+  }
+}
+
+@media (min-width: 1024px) {
+  .recipe-detail-content {
+    grid-template-columns: 5fr 7fr;
+  }
+}
+
+@media (min-width: 1200px) {
+  .container {
+    padding: 0 6rem;
+    width: 90%;
+    max-width: 1600px;
+  }
+  
+  .recipe-detail-content {
+    grid-template-columns: 1fr 1fr;
+    max-width: 1600px;
+    margin: 0 auto;
+  }
+  
+  .recipe-detail-image-container {
+    max-width: 100%;
+  }
+}

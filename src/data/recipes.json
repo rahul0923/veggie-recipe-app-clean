@@ -1,0 +1,173 @@
+[
+  {
+    "id": 1,
+    "name": "Tofu Scramble",
+    "type": "vegan",
+    "mealTime": "breakfast",
+    "ingredients": ["Tofu", "Bell Peppers", "Spinach", "Tomatoes"],
+    "instructions": [
+      "In a large pan, sauté diced onions in olive oil until translucent.",
+      "Add sliced mushrooms and cook until they release their moisture.",
+      "Stir in arborio rice and toast for 2 minutes.",
+      "Add a splash of white wine and stir until absorbed.",
+      "Gradually add warm vegetable broth, one ladle at a time, stirring frequently.",
+      "Continue adding broth and stirring until rice is creamy and tender, about 20 minutes.",
+      "Season with salt and pepper, and finish with a sprinkle of parmesan cheese."
+    ],
+    "prepTime": "15 min",
+    "imageUrl": "https://images.unsplash.com/photo-1511690656952-34342bb7c2f2?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80",
+    "description": "A protein-packed breakfast that mimics scrambled eggs but is completely plant-based.",
+    "videoUrl": "https://www.youtube.com/watch?v=MoFZvNLU-yQ"
+  },
+  {
+    "id": 2,
+    "name": "Avocado Toast",
+    "type": "vegan",
+    "mealTime": "breakfast",
+    "ingredients": ["Avocado", "Tomatoes", "Bread"],
+    "instructions": [
+      "In a large pan, sauté diced onions in olive oil until translucent.",
+      "Add sliced mushrooms and cook until they release their moisture.",
+      "Stir in arborio rice and toast for 2 minutes.",
+      "Add a splash of white wine and stir until absorbed.",
+      "Gradually add warm vegetable broth, one ladle at a time, stirring frequently.",
+      "Continue adding broth and stirring until rice is creamy and tender, about 20 minutes.",
+      "Season with salt and pepper, and finish with a sprinkle of parmesan cheese."
+    ],
+    "prepTime": "10 min",
+    "imageUrl": "https://images.unsplash.com/photo-1588137378633-dea1336ce1e4?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80",
+    "description": "Simple, nutritious toast topped with creamy avocado - perfect for mornings.",
+    "videoUrl": "https://www.youtube.com/watch?v=VVJiW-RB_Vg"
+  },
+  {
+    "id": 3,
+    "name": "Spinach Quesadilla",
+    "type": "vegetarian",
+    "mealTime": "lunch",
+    "ingredients": ["Spinach", "Cheese", "Tortilla"],
+    "instructions": [
+      "In a large pan, sauté diced onions in olive oil until translucent.",
+      "Add sliced mushrooms and cook until they release their moisture.",
+      "Stir in arborio rice and toast for 2 minutes.",
+      "Add a splash of white wine and stir until absorbed.",
+      "Gradually add warm vegetable broth, one ladle at a time, stirring frequently.",
+      "Continue adding broth and stirring until rice is creamy and tender, about 20 minutes.",
+      "Season with salt and pepper, and finish with a sprinkle of parmesan cheese."
+    ],
+    "prepTime": "15 min",
+    "imageUrl": "https://images.unsplash.com/photo-1626700051175-6818013e1d4f?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80",
+    "description": "A quick and satisfying lunch with gooey cheese and healthy veggies.",
+    "videoUrl": "https://www.youtube.com/watch?v=yjQuIZkxpLo"
+  },
+  {
+    "id": 4,
+    "name": "Mushroom Risotto",
+    "type": "vegetarian",
+    "mealTime": "dinner",
+    "ingredients": ["Arborio Rice", "Mushrooms", "Onion", "Vegetable Broth", "White Wine"],
+    "instructions": [
+      "In a large pan, sauté diced onions in olive oil until translucent.",
+      "Add sliced mushrooms and cook until they release their moisture.",
+      "Stir in arborio rice and toast for 2 minutes.",
+      "Add a splash of white wine and stir until absorbed.",
+      "Gradually add warm vegetable broth, one ladle at a time, stirring frequently.",
+      "Continue adding broth and stirring until rice is creamy and tender, about 20 minutes.",
+      "Season with salt and pepper, and finish with a sprinkle of parmesan cheese."
+    ],
+    "prepTime": "40 min",
+    "imageUrl": "https://images.unsplash.com/photo-1476124369491-e7addf5db371?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80",
+    "description": "A creamy Italian rice dish with earthy mushrooms and savory broth.",
+    "videoUrl": "https://www.youtube.com/watch?v=f0C96ir-1Qs"
+  },
+  {
+    "id": 5,
+    "name": "Sweet Potato Curry",
+    "type": "vegan",
+    "mealTime": "dinner",
+    "ingredients": ["Sweet Potatoes", "Chickpeas", "Coconut Milk", "Curry Paste", "Spinach"],
+    "prepTime": "35 min",
+    "imageUrl": "https://images.unsplash.com/photo-1605491996584-52d5a9be4106?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80",
+    "description": "A flavorful curry that's both comforting and nutritious.",
+    "videoUrl": "https://www.youtube.com/watch?v=QbAYNP1WRoI"
+  },
+  {
+    "id": 6,
+    "name": "Eggplant Parmesan",
+    "type": "vegetarian",
+    "mealTime": "dinner",
+    "ingredients": ["Eggplant", "Tomato Sauce", "Mozzarella", "Parmesan", "Breadcrumbs"],
+    "instructions": [
+      "In a large pan, sauté diced onions in olive oil until translucent.",
+      "Add sliced mushrooms and cook until they release their moisture.",
+      "Stir in arborio rice and toast for 2 minutes.",
+      "Add a splash of white wine and stir until absorbed.",
+      "Gradually add warm vegetable broth, one ladle at a time, stirring frequently.",
+      "Continue adding broth and stirring until rice is creamy and tender, about 20 minutes.",
+      "Season with salt and pepper, and finish with a sprinkle of parmesan cheese."
+    ],
+    "prepTime": "50 min",
+    "imageUrl": "https://images.unsplash.com/photo-1601311669625-d28e8757d2a7?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80",
+    "description": "A classic Italian dish with layers of breaded eggplant, cheese, and tomato sauce.",
+    "videoUrl": "https://www.youtube.com/watch?v=JIgQgzGfOmU"
+  },
+  {
+    "id": 7,
+    "name": "Eggplant Parmesan 1",
+    "type": "vegetarian",
+    "mealTime": "dinner",
+    "ingredients": ["Eggplant", "Tomato Sauce", "Mozzarella", "Parmesan", "Breadcrumbs"],
+    "instructions": [
+      "In a large pan, sauté diced onions in olive oil until translucent.",
+      "Add sliced mushrooms and cook until they release their moisture.",
+      "Stir in arborio rice and toast for 2 minutes.",
+      "Add a splash of white wine and stir until absorbed.",
+      "Gradually add warm vegetable broth, one ladle at a time, stirring frequently.",
+      "Continue adding broth and stirring until rice is creamy and tender, about 20 minutes.",
+      "Season with salt and pepper, and finish with a sprinkle of parmesan cheese."
+    ],
+    "prepTime": "50 min",
+    "imageUrl": "https://images.unsplash.com/photo-1601311669625-d28e8757d2a7?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80",
+    "description": "A classic Italian dish with layers of breaded eggplant, cheese, and tomato sauce.",
+    "videoUrl": "https://www.youtube.com/watch?v=VVJiW-RB_Vg"
+  },
+  {
+    "id": 8,
+    "name": "Eggplant Parmesan 3",
+    "type": "vegetarian",
+    "mealTime": "dinner",
+    "ingredients": ["Eggplant", "Tomato Sauce", "Mozzarella", "Parmesan", "Breadcrumbs"],
+    "instructions": [
+      "In a large pan, sauté diced onions in olive oil until translucent.",
+      "Add sliced mushrooms and cook until they release their moisture.",
+      "Stir in arborio rice and toast for 2 minutes.",
+      "Add a splash of white wine and stir until absorbed.",
+      "Gradually add warm vegetable broth, one ladle at a time, stirring frequently.",
+      "Continue adding broth and stirring until rice is creamy and tender, about 20 minutes.",
+      "Season with salt and pepper, and finish with a sprinkle of parmesan cheese."
+    ],
+    "prepTime": "50 min",
+    "imageUrl": "https://images.unsplash.com/photo-1601311669625-d28e8757d2a7?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80",
+    "description": "A classic Italian dish with layers of breaded eggplant, cheese, and tomato sauce.",
+    "videoUrl": "https://www.youtube.com/watch?v=VVJiW-RB_Vg"
+  },
+  {
+    "id": 9,
+    "name": "Eggplant Parmesan 4",
+    "type": "vegetarian",
+    "mealTime": "dinner",
+    "ingredients": ["Eggplant", "Tomato Sauce", "Mozzarella", "Parmesan", "Breadcrumbs"],
+    "instructions": [
+      "In a large pan, sauté diced onions in olive oil until translucent.",
+      "Add sliced mushrooms and cook until they release their moisture.",
+      "Stir in arborio rice and toast for 2 minutes.",
+      "Add a splash of white wine and stir until absorbed.",
+      "Gradually add warm vegetable broth, one ladle at a time, stirring frequently.",
+      "Continue adding broth and stirring until rice is creamy and tender, about 20 minutes.",
+      "Season with salt and pepper, and finish with a sprinkle of parmesan cheese."
+    ],
+    "prepTime": "50 min",
+    "imageUrl": "https://images.unsplash.com/photo-1601311669625-d28e8757d2a7?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80",
+    "description": "A classic Italian dish with layers of breaded eggplant, cheese, and tomato sauce.",
+    "videoUrl": "https://www.youtube.com/watch?v=VVJiW-RB_Vg"
+  }
+]
