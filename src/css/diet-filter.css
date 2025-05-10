@@ -27,17 +27,34 @@
   gap: 0.5rem;
   cursor: pointer;
 }
-
+ 
 .diet-radio {
   width: 1rem;
   height: 1rem;
-  accent-color: #22c55e;
-  background-color: red;
+  accent-color: var(--primary-500);
+  appearance: none;
+  -webkit-appearance: none;
+  border: 1px solid var(--primary-500);
+  border-radius: 50%;
+  position: relative;
+}
+
+.diet-radio:checked::after {
+  content: '';
+  position: absolute;
+  width: 0.5rem;
+  height: 0.5rem;
+  background-color: var(--primary-500);
+  border-radius: 50%;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
 }
 
 .diet-label {
   font-size: 0.875rem;
-  color: var(--neutral-600);
+  color: var(--neutral-600);    
+  height: 1.2rem;
 }
 
 /* Responsive layout for larger screens */
