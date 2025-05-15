@@ -8,6 +8,7 @@
 
 /* Components */
 @import 'header.css';
+@import 'footer.css';
 @import 'mobile-menu.css';
 @import 'search-filter.css';
 @import 'recipe-cards.css';
