@@ -52,8 +52,8 @@ const Header = ({ currentTime, setCurrentTime }) => {
       
       {/* Mobile menu */}
       {isMobileMenuOpen && (
-        <div className="mobile-menu">
-        <div className="mobile-grid">
+        <div className="mobile-menu active">
+          <div className="mobile-grid">
             {timeOptions.map(option => (
               <button
                 key={option.value}
