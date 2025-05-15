@@ -18,25 +18,25 @@ GreenPlate is a vegetarian and vegan recipe app built with React and Vite. It al
 
 ## Development Journal
 
-### 2024-05-15: Initial Setup and Project Structure
+### 2025-05-15: Initial Setup and Project Structure
 - Created project with Vite and React
 - Set up folder structure for components, layouts, and CSS
 - Implemented recipe data in JSON format
 - Created initial UI components (Header, RecipeCard)
 
-### 2024-05-15: Recipe Filtering Functionality
+### 2025-05-15: Recipe Filtering Functionality
 - Implemented filtering by meal time (breakfast, lunch, snacks, dinner)
 - Added diet filtering (vegetarian/vegan)
 - Created search functionality
 - Added ingredient filtering
 
-### 2024-05-15: Navigation and Header
+### 2025-05-15: Navigation and Header
 - Implemented header with navigation options
 - Set up React Router for navigation
 - Created recipe detail page
 - Added responsive design for mobile and desktop
 
-### 2024-05-15: Footer Implementation and Navigation Challenges
+### 2025-05-15: Footer Implementation and Navigation Challenges
 **Issue**: Footer navigation links didn't update app state or URL.
 
 **Solution**:
@@ -50,7 +50,7 @@ GreenPlate is a vegetarian and vegan recipe app built with React and Vite. It al
 - Simple DOM elements can be more reliable than Links for complex interactions
 - Consistent prop naming is essential for component communication
 
-### 2024-05-15: Responsive Design Implementation
+### 2025-05-15: Responsive Design Implementation
 - Added media queries for different viewport sizes
 - Created mobile menu toggle
 - Implemented responsive grid for recipe cards
