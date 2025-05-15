@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <!-- Version 3: Fork and Leaf Theme -->
+  
+  <!-- Background Circle -->
+  <circle cx="50" cy="50" r="48" fill="#22c55e" />
+  <circle cx="50" cy="50" r="44" fill="#16a34a" />
+  
+  <!-- Inner White Circle -->
+  <circle cx="50" cy="50" r="36" fill="white" />
+  
+  <!-- Fork Handle -->
+  <rect x="48" y="55" width="4" height="25" rx="2" fill="#64748b" />
+  
+  <!-- Fork Prongs -->
+  <rect x="42" y="35" width="3" height="25" rx="1.5" fill="#64748b" />
+  <rect x="48.5" y="30" width="3" height="30" rx="1.5" fill="#64748b" />
+  <rect x="55" y="35" width="3" height="25" rx="1.5" fill="#64748b" />
+  
+  <!-- Leaf -->
+  <path d="M35,40 C35,40 30,30 40,25 C50,20 60,25 60,35 C60,45 55,50 45,50 C35,50 30,45 35,40 Z" fill="#22c55e" />
+  <path d="M45,50 C45,50 42,42 44,38" stroke="#16a34a" stroke-width="2" fill="none" />
+</svg>
