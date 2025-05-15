@@ -83,4 +83,4 @@ GreenPlate is a vegetarian and vegan recipe app built with React and Vite. It al
 
 ---
 
-*Last Updated: May 15, 2024*
+*Last Updated: May 15, 2025*
