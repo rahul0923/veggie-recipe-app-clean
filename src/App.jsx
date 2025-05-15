@@ -104,7 +104,7 @@ function App() {
     <>
       <div className="search-and-filter">
         <div className="search-section">
-          <SearchBar onSearch={handleSearch} />
+          <SearchBar searchTerm={searchTerm} onSearch={handleSearch} />
         </div>
         <div className="filter-toggle">
           <button 
