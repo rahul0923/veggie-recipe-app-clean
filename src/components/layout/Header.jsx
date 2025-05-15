@@ -14,7 +14,21 @@ const Header = ({ currentTime, setCurrentTime }) => {
 
   const handleTimeChange = (newTime) => {
     setCurrentTime(newTime);
-    navigate('/'); // Navigate back to the home page
+    // Create a new URLSearchParams object from the current search
+    const queryParams = new URLSearchParams(location.search);
+    
+    // Update or remove the meal parameter
+    if (newTime) {
+      queryParams.set('meal', newTime);
+    } else {
+      queryParams.delete('meal');
+    }
+    
+    // Preserve other query parameters
+    const newSearch = queryParams.toString();
+    const newURL = newSearch ? `/?${newSearch}` : '/';
+    
+    navigate(newURL); // Navigate back to the home page
     setIsMobileMenuOpen(false);
   };
 
