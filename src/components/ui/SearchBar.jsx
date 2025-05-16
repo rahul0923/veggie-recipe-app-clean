@@ -8,6 +8,20 @@ const SearchBar = ({ searchTerm, onSearch }) => {
     onSearch(value);
   };
 
+    // Modify the blur handler to check what was clicked
+  const handleBlur = (e) => {
+    // Get what was clicked (relatedTarget is what received focus)
+    const clickedElement = e.relatedTarget;
+    
+    // If it's not another input field, refocus
+    if (!clickedElement || 
+        (clickedElement.tagName !== 'INPUT' && 
+         clickedElement.tagName !== 'TEXTAREA')) {
+      setTimeout(() => inputRef.current?.focus(), 10);
+    }
+    // Otherwise, let the other input get focus
+  };
+
   return (
     <div className="search-container">
       <input
@@ -19,12 +33,7 @@ const SearchBar = ({ searchTerm, onSearch }) => {
         onChange={handleSearch}
         // Add these focus handling attributes directly on the input
         autoFocus
-        onBlur={(e) => {
-          // Prevent blur except when clicking the clear button
-          if (e.relatedTarget !== document.querySelector('.search-clear')) {
-            setTimeout(() => inputRef.current?.focus(), 10);
-          }
-        }}
+        onBlur={handleBlur}
       />
       {searchTerm && (
         <button 

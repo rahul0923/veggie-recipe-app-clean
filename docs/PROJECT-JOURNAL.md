@@ -18,6 +18,14 @@ GreenPlate is a vegetarian and vegan recipe app built with React and Vite. It al
 
 ## Development Journal
 
+### 2025-05-16 Fix a bug on SearchBar
+User was not able to select the 'Search Ingredient' input area since SearchBar input always had focus
+
+Highlights of the fix
+- Keep the main search bar focused for most interactions (maintaining our desired UX)
+- Allow users to deliberately click on the ingredient filter input and have it properly receive focus
+- Do this without requiring significant changes to our existing code structure
+
 ### 2025-05-16: Refactored code 
 - To properly decouple the UI and business logic. 
 - Keeping React Native in mind. 
