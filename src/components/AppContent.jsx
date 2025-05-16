@@ -10,34 +10,28 @@ import DietFilter from './ui/DietFilter';
 import SearchBar from './ui/SearchBar';
 import IngredientFilter from './ui/IngredientFilter';
 
-import recipeData from '../data/recipes.json';
+import { useMealTime } from '../hooks/useMealTime';
+import { useRecipes } from '../hooks/useRecipes';
 
 function AppContent() {
   const navigate = useNavigate();
   const location = useLocation();
   
-  const [timeOfDay, setTimeOfDay] = useState('');
-  const [searchTerm, setSearchTerm] = useState('');
   const [isFilterOpen, setIsFilterOpen] = useState(false); 
-  const [selectedDiet, setSelectedDiet] = useState('all'); // 'all', 'vegetarian', or 'vegan'
-  const [filteredRecipes, setFilteredRecipes] = useState([]);
-  const [availableIngredients] = useState(getAllIngredients());
-  const [selectedIngredients, setSelectedIngredients] = useState([]);
+  
+  // Use our custom hooks
+  const { timeOfDay, setTimeOfDay } = useMealTime();
+  const { 
+    filteredRecipes, 
+    searchTerm, 
+    selectedDiet, 
+    selectedIngredients,
+    availableIngredients,
+    handleSearch,
+    handleDietChange,
+    handleIngredientsChange
+  } = useRecipes(timeOfDay);
 
-  // Helper function for ingredients
-  function getAllIngredients() {
-    const ingredientSet = new Set();
-    
-    recipeData.forEach(recipe => {
-      recipe.ingredients.forEach(ingredient => {
-        // Handle both string and object ingredients
-        const ingredientName = typeof ingredient === 'string' ? ingredient : ingredient.name;
-        ingredientSet.add(ingredientName);
-      });
-    });
-    
-    return Array.from(ingredientSet).sort();
-  }
 
   // Extract query parameters when location changes
   useEffect(() => {
@@ -50,85 +44,24 @@ function AppContent() {
     
     const dietParam = params.get('diet');
     if (dietParam) {
-      setSelectedDiet(dietParam);
+      handleDietChange(dietParam);
     }
     
     const searchParam = params.get('search');
     if (searchParam) {
-      setSearchTerm(searchParam);
+      handleSearch(searchParam);
     }
     
     const ingredientsParam = params.get('ingredients');
     if (ingredientsParam) {
-      setSelectedIngredients(ingredientsParam.split(','));
+      handleIngredientsChange(ingredientsParam.split(','));
     }
-  }, [location.search]);
+  }, [location.search, handleDietChange, handleIngredientsChange, handleSearch, setTimeOfDay ]);
 
-  // Determine time of day automatically when the component mounts
-  useEffect(() => {
-    if (!timeOfDay) {
-      const determineTimeOfDay = () => {
-        const hour = new Date().getHours();
-        if (hour >= 5 && hour < 11) {
-          return 'breakfast';
-        } else if (hour >= 11 && hour < 15) {
-          return 'lunch';
-        } else if (hour >= 15 && hour < 18) {
-          return 'snack';
-        } else {
-          return 'dinner';
-        }
-      };
-      
-      setTimeOfDay(determineTimeOfDay());
-    }
-  }, [timeOfDay]);
-
-  // Filter recipes based on time of day and search term
-  useEffect(() => {
-    let results = recipeData;
-    
-    // Filter by time of day
-    if (timeOfDay) {
-      results = results.filter(recipe => recipe.mealTime === timeOfDay);
-    }
-    
-    // Filter by diet
-    if (selectedDiet !== 'all') {
-      results = results.filter(recipe => recipe.type === selectedDiet);
-    }
-
-   // Filter by search term
-    if (searchTerm) {
-      const term = searchTerm.toLowerCase();
-      results = results.filter(recipe => 
-        recipe.name.toLowerCase().includes(term) ||
-        recipe.description.toLowerCase().includes(term) ||
-        recipe.ingredients.some(ingredient => {
-          const ingredientName = typeof ingredient === 'string' ? ingredient : ingredient.name;
-          return ingredientName.toLowerCase().includes(term);
-        })
-      );
-    }
-    
-    // Filter by selected ingredients
-    if (selectedIngredients.length > 0) {
-      results = results.filter(recipe => 
-        selectedIngredients.every(selectedIngredient => 
-          recipe.ingredients.some(ingredient => {
-            const ingredientName = typeof ingredient === 'string' ? ingredient : ingredient.name;
-            return ingredientName === selectedIngredient;
-          })
-        )
-      );
-    }
-    
-    setFilteredRecipes(results);
-  }, [timeOfDay, searchTerm, selectedIngredients, selectedDiet]);
 
   // Create stable handler functions with useCallback
-  const handleSearch = useCallback((term) => {
-    setSearchTerm(term);
+  const handleSearchWithURL = useCallback((term) => {
+    handleSearch(term);
     
     // Update URL
     const params = new URLSearchParams(location.search);
@@ -138,7 +71,7 @@ function AppContent() {
       params.delete('search');
     }
     navigate(`/?${params.toString()}`);
-  }, [location.search, navigate]);
+  }, [location.search, navigate, handleSearch]);
   
   const handleTimeChange = useCallback((newTime) => {
     setTimeOfDay(newTime);
@@ -151,10 +84,10 @@ function AppContent() {
       params.delete('meal');
     }
     navigate(`/?${params.toString()}`);
-  }, [location.search, navigate]);
+  }, [location.search, navigate, setTimeOfDay]);
   
-  const handleDietChange = useCallback((diet) => {
-    setSelectedDiet(diet);
+  const handleDietChangeWithURL = useCallback((diet) => {
+    handleDietChange(diet);
     
     // Update URL
     const params = new URLSearchParams(location.search);
@@ -164,10 +97,10 @@ function AppContent() {
       params.delete('diet');
     }
     navigate(`/?${params.toString()}`);
-  }, [location.search, navigate]);
+  }, [location.search, navigate, handleDietChange]);
   
-  const handleIngredientsChange = useCallback((ingredients) => {
-    setSelectedIngredients(ingredients);
+  const handleIngredientsChangeWithURL = useCallback((ingredients) => {
+    handleIngredientsChange(ingredients);
     
     // Update URL
     const params = new URLSearchParams(location.search);
@@ -177,7 +110,7 @@ function AppContent() {
       params.delete('ingredients');
     }
     navigate(`/?${params.toString()}`);
-  }, [location.search, navigate]);
+  }, [location.search, navigate, handleIngredientsChange]);
 
   const HomePage = () => (
     <>
@@ -238,9 +171,9 @@ function AppContent() {
             <button
               className="reset-filters-button"
               onClick={() => {
-                setSearchTerm('');
-                setSelectedIngredients([]);
-                setSelectedDiet('all');
+                handleSearchWithURL('');
+                handleIngredientsChangeWithURL([]);
+                handleDietChangeWithURL('all');
                 navigate('/');
               }}
             >
@@ -270,7 +203,7 @@ function AppContent() {
         currentTime={timeOfDay} 
         selectedDiet={selectedDiet}   
         handleTimeChange={handleTimeChange}
-        handleDietChange={handleDietChange}         
+        handleDietChange={handleDietChangeWithURL}         
       />
     </>
   );

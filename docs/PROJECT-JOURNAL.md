@@ -18,6 +18,19 @@ GreenPlate is a vegetarian and vegan recipe app built with React and Vite. It al
 
 ## Development Journal
 
+### 2025-05-16: Refactored code 
+- To properly decouple the UI and business logic. 
+- Keeping React Native in mind. 
+- Since we want to create a react Native App also and want to ensure we can share business logic part of the web app. 
+
+#### Test the Changes
+After making these changes:
+
+- Check if the app loads correctly
+- Test the filtering functionality
+- Ensure URL parameters work
+- Test navigating to recipe detail and back
+
 ### 2025-05-15: Initial Setup and Project Structure
 - Created project with Vite and React
 - Set up folder structure for components, layouts, and CSS
