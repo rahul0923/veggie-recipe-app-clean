@@ -1,36 +1,50 @@
 // src/components/ui/IngredientFilter.jsx
-import { useState, useEffect } from 'react';
+import { memo, useMemo } from 'react';
+import { useIngredientFilter } from '../../hooks/useIngredientFilter';
 
 const IngredientFilter = ({ availableIngredients, selectedIngredients, onChange }) => {
-  const [searchTerm, setSearchTerm] = useState('');
-  const [filteredIngredients, setFilteredIngredients] = useState(availableIngredients);
+  // Use the custom hook with memoized props
+  const {
+    searchTerm,
+    setSearchTerm,
+    filteredIngredients,
+    toggleIngredient,
+    clearAll
+  } = useIngredientFilter(
+    availableIngredients,
+    selectedIngredients,
+    onChange
+  );
   
-  // Filter ingredients based on search term
-  useEffect(() => {
-    if (searchTerm.trim() === '') {
-      setFilteredIngredients(availableIngredients);
-    } else {
-      const filtered = availableIngredients.filter(ingredient => 
-        ingredient.toLowerCase().includes(searchTerm.toLowerCase())
-      );
-      setFilteredIngredients(filtered);
-    }
-  }, [searchTerm, availableIngredients]);
+  // Use a memoized render for the ingredient list to prevent excessive re-renders
+  const ingredientListItems = useMemo(() => {
+    return filteredIngredients.map(ingredient => (
+      <label key={ingredient} className="ingredient-item-label">
+        <input
+          type="checkbox"
+          checked={selectedIngredients.includes(ingredient)}
+          onChange={() => toggleIngredient(ingredient)}
+          className="ingredient-checkbox"
+        />
+        <span className="ingredient-name">{ingredient}</span>
+      </label>
+    ));
+  }, [filteredIngredients, selectedIngredients, toggleIngredient]);
   
-  // Toggle ingredient selection
-  const toggleIngredient = (ingredient) => {
-    if (selectedIngredients.includes(ingredient)) {
-      onChange(selectedIngredients.filter(item => item !== ingredient));
-    } else {
-      onChange([...selectedIngredients, ingredient]);
-    }
-  };
-  
-  // Clear all selected ingredients
-  const clearAll = () => {
-    onChange([]);
-    setSearchTerm('');
-  };
+  // Similarly, memoize the selected ingredients tags
+  const selectedIngredientTags = useMemo(() => {
+    return selectedIngredients.map(ingredient => (
+      <span key={ingredient} className="selected-ingredient-tag">
+        {ingredient}
+        <button 
+          className="remove-ingredient" 
+          onClick={() => toggleIngredient(ingredient)}
+        >
+          ×
+        </button>
+      </span>
+    ));
+  }, [selectedIngredients, toggleIngredient]);
   
   return (
     <div className="ingredient-filter">
@@ -58,34 +72,14 @@ const IngredientFilter = ({ availableIngredients, selectedIngredients, onChange 
           <>
             <div className="selected-ingredients-label">Selected:</div>
             <div className="selected-ingredients-tags">
-              {selectedIngredients.map(ingredient => (
-                <span key={ingredient} className="selected-ingredient-tag">
-                  {ingredient}
-                  <button 
-                    className="remove-ingredient" 
-                    onClick={() => toggleIngredient(ingredient)}
-                  >
-                    ×
-                  </button>
-                </span>
-              ))}
+              {selectedIngredientTags}
             </div>
           </>
         )}
       </div>
       
       <div className="ingredient-list">
-        {filteredIngredients.map(ingredient => (
-          <label key={ingredient} className="ingredient-item-label">
-            <input
-              type="checkbox"
-              checked={selectedIngredients.includes(ingredient)}
-              onChange={() => toggleIngredient(ingredient)}
-              className="ingredient-checkbox"
-            />
-            <span className="ingredient-name">{ingredient}</span>
-          </label>
-        ))}
+        {ingredientListItems}
         {filteredIngredients.length === 0 && (
           <p className="no-ingredients">No ingredients match your search.</p>
         )}
@@ -94,4 +88,5 @@ const IngredientFilter = ({ availableIngredients, selectedIngredients, onChange 
   );
 };
 
-export default IngredientFilter;
+// Ensure the component doesn't re-render unnecessarily
+export default memo(IngredientFilter);

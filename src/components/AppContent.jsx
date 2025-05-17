@@ -105,18 +105,14 @@ function AppContent() {
     navigate(`/?${params.toString()}`);
   }, [location.search, navigate, handleDietChange]);
   
+
   const handleIngredientsChangeWithURL = useCallback((ingredients) => {
+    // Only update state, don't update URL for ingredients
     handleIngredientsChange(ingredients);
     
-    // Update URL
-    const params = new URLSearchParams(location.search);
-    if (ingredients && ingredients.length > 0) {
-      params.set('ingredients', ingredients.join(','));
-    } else {
-      params.delete('ingredients');
-    }
-    navigate(`/?${params.toString()}`);
-  }, [location.search, navigate, handleIngredientsChange]);
+    // Skip the URL update part completely
+    // This prevents the navigation -> state update -> render -> navigation cycle
+  }, [handleIngredientsChange]);
 
   const HomePage = () => (
     <>
