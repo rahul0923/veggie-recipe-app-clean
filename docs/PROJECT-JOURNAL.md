@@ -18,6 +18,11 @@ GreenPlate is a vegetarian and vegan recipe app built with React and Vite. It al
 
 ## Development Journal
 
+### 2025-05-16 Fix a bug on SearchBar and add Favorites page
+Search Bar still had issues wherein if user clicked on links in footer or on any other card the selection would not take place.
+
+Also added a Favorites page and an option to mark a favorite recipe
+
 ### 2025-05-16 Fix a bug on SearchBar
 User was not able to select the 'Search Ingredient' input area since SearchBar input always had focus
 

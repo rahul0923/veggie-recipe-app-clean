@@ -9,6 +9,7 @@ import RecipeDetail from './recipe/RecipeDetail';
 import DietFilter from './ui/DietFilter';
 import SearchBar from './ui/SearchBar';
 import IngredientFilter from './ui/IngredientFilter';
+import FavoritesPage from './pages/FavoritesPage';
 
 import { useMealTime } from '../hooks/useMealTime';
 import { useRecipes } from '../hooks/useRecipes';
@@ -29,9 +30,15 @@ function AppContent() {
     availableIngredients,
     handleSearch,
     handleDietChange,
-    handleIngredientsChange
+    handleIngredientsChange,
+    refreshRecipes // Add this to useRecipes hook if not already there
   } = useRecipes(timeOfDay);
 
+  // Function to refresh recipe list after favorites change
+  const handleFavoriteToggle = async () => {
+    // Use the refreshRecipes function from the hook
+    await refreshRecipes();
+  };
 
   // Extract query parameters when location changes
   useEffect(() => {
@@ -56,8 +63,7 @@ function AppContent() {
     if (ingredientsParam) {
       handleIngredientsChange(ingredientsParam.split(','));
     }
-  }, [location.search, handleDietChange, handleIngredientsChange, handleSearch, setTimeOfDay ]);
-
+  }, [location.search, handleDietChange, handleIngredientsChange, handleSearch, setTimeOfDay]);
 
   // Create stable handler functions with useCallback
   const handleSearchWithURL = useCallback((term) => {
@@ -116,7 +122,7 @@ function AppContent() {
     <>
       <div className="search-and-filter">
         <div className="search-section">
-          <SearchBar searchTerm={searchTerm} onSearch={handleSearch} />
+          <SearchBar searchTerm={searchTerm} onSearch={handleSearchWithURL} />
         </div>
         <div className="filter-toggle">
           <button 
@@ -136,12 +142,12 @@ function AppContent() {
         <div className="filters-container">
           <DietFilter 
             selectedDiet={selectedDiet}
-            onChange={handleDietChange}
+            onChange={handleDietChangeWithURL}
           />
           <IngredientFilter 
             availableIngredients={availableIngredients}
             selectedIngredients={selectedIngredients}
-            onChange={handleIngredientsChange}
+            onChange={handleIngredientsChangeWithURL}
           />
         </div>
       )}
@@ -156,7 +162,10 @@ function AppContent() {
       {filteredRecipes.length > 0 ? (
         <div className="recipe-grid">
           {filteredRecipes.map(recipe => (
-            <RecipeCard key={recipe.id} recipe={recipe} />
+            <RecipeCard 
+              key={recipe.id} 
+              recipe={recipe}
+            />
           ))}
         </div>
       ) : (
@@ -195,7 +204,12 @@ function AppContent() {
       <main className="container">
         <Routes>
           <Route path="/" element={<HomePage />} />
-          <Route path="/recipe/:id" element={<RecipeDetail />} />
+          <Route path="/recipe/:id" element={
+            <RecipeDetail onFavoriteToggle={handleFavoriteToggle} />
+          } />
+          <Route path="/favorites" element={
+            <FavoritesPage onFavoriteToggle={handleFavoriteToggle} />
+          } />
         </Routes>
       </main>
 

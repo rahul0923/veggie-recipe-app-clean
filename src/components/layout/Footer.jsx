@@ -1,9 +1,14 @@
 // src/components/layout/Footer.jsx - updated to match AppContent.jsx
-import React from 'react';
+
+import { Link, useLocation } from 'react-router-dom';
 
 const Footer = ({ currentTime, selectedDiet, handleTimeChange, handleDietChange }) => {
   const currentYear = new Date().getFullYear();
+  const location = useLocation();
   
+  // Check if on favorites page
+  const isOnFavoritesPage = location.pathname === '/favorites';
+
   return (
     <footer className="footer">
       <div className="footer-content">
@@ -78,6 +83,14 @@ const Footer = ({ currentTime, selectedDiet, handleTimeChange, handleDietChange 
             >
               Vegan
             </div>
+                        {/* Add Favorites link */}
+            <Link 
+              to="/favorites"
+              className={`footer-link ${isOnFavoritesPage ? 'footer-link-active' : ''}`}
+              style={{ marginBottom: '0.75rem' }}
+            >
+              My Favorites
+            </Link>
           </nav>
         </div>
         

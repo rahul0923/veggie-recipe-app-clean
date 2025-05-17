@@ -1,5 +1,5 @@
 // src/hooks/useRecipes.js
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react'; // Add useCallback import
 import { recipeService } from '../services/recipeService';
 
 export function useRecipes(timeOfDay = '') {
@@ -29,12 +29,11 @@ export function useRecipes(timeOfDay = '') {
   const [availableIngredients, setAvailableIngredients] = useState([]);
   
   // Update this when recipes change
-useEffect(() => {
-  if (recipes.length > 0) {
-    setAvailableIngredients(getAllIngredients(recipes));
-  }
-}, [recipes]);
-
+  useEffect(() => {
+    if (recipes.length > 0) {
+      setAvailableIngredients(getAllIngredients(recipes));
+    }
+  }, [recipes]);
 
   // Load all recipes initially
   useEffect(() => {
@@ -103,6 +102,20 @@ useEffect(() => {
     setSelectedIngredients(ingredients);
   };
 
+  // Add refreshRecipes function using useCallback
+  const refreshRecipes = useCallback(async () => {
+    try {
+      // Fetch fresh recipe data
+      const freshRecipes = await recipeService.getAllRecipes();
+      setRecipes(freshRecipes);
+      
+      // No need to manually apply filters here because the useEffect
+      // will automatically run when recipes state changes
+    } catch (error) {
+      console.error("Error refreshing recipes:", error);
+    }
+  }, []); // Empty dependency array as it doesn't depend on any props or state values
+
   return {
     // Data
     recipes,
@@ -116,6 +129,7 @@ useEffect(() => {
     handleSearch,
     handleDietChange,
     handleIngredientsChange,
+    refreshRecipes, // Add the refresh function to the returned object
     // Raw setters (in case they're needed)
     setSearchTerm,
     setSelectedDiet,

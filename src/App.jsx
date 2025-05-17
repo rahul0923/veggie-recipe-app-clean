@@ -1,16 +1,17 @@
-// App.jsx
+// src/App.jsx
 import { BrowserRouter as Router } from 'react-router-dom';
-
-import AppContent from './components/AppContent'; // We'll create this new component
-
+import { FavoritesProvider } from './context/FavoritesContext';
+import AppContent from './components/AppContent';
 import './css/main.css';
 
 function App() {
   return (
     <Router>
-      <div className="app-wrapper" style={{ width: '100%', overflow: 'hidden' }}>
-        <AppContent />
-      </div>
+      <FavoritesProvider>
+        <div className="app-wrapper" style={{ width: '100%', overflow: 'hidden' }}>
+          <AppContent />
+        </div>
+      </FavoritesProvider>
     </Router>
   );
 }

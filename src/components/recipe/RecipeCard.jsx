@@ -1,8 +1,11 @@
 // src/components/recipe/RecipeCard.jsx
 import { Link } from 'react-router-dom';
+import { memo } from 'react';
 import { PlayCircleIcon } from '@heroicons/react/24/outline'; 
+import FavoriteButton from './FavoriteButton';
 
 const RecipeCard = ({ recipe }) => {
+
   return (
     <Link to={`/recipe/${recipe.id}`} className="recipe-card-link">
       <div className="recipe-card">
@@ -13,6 +16,10 @@ const RecipeCard = ({ recipe }) => {
               <PlayCircleIcon className="video-icon" />
             </div>
           )}
+          {/* Position the favorite button on the image */}
+          <div className="recipe-card-favorite">
+            <FavoriteButton recipeId={recipe.id} />
+          </div>
         </div>
         <div className="recipe-content">
           <div className="recipe-header">
@@ -38,4 +45,5 @@ const RecipeCard = ({ recipe }) => {
   );
 };
 
-export default RecipeCard;
+// Wrap with memo to prevent unnecessary re-renders
+export default memo(RecipeCard);

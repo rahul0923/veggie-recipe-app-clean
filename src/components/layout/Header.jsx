@@ -1,9 +1,19 @@
 import { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate, useLocation } from 'react-router-dom';
+
+import { useFavorites } from '../../context/FavoritesContext';
 
 const Header = ({ currentTime, setCurrentTime }) => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const navigate = useNavigate();
+  const location = useLocation();
+
+
+  // Optionally use the favorites context to show count
+  const { favoriteIds } = useFavorites ? useFavorites() : { favoriteIds: [] };
+
+  // Check if we're on the favorites page
+  const isOnFavoritesPage = location.pathname === '/favorites';
 
   const timeOptions = [
     { value: 'breakfast', label: 'Breakfast' },
@@ -52,6 +62,19 @@ const Header = ({ currentTime, setCurrentTime }) => {
         
         {/* Desktop navigation */}
         <nav className="nav">
+          {/* Add favorites link */}
+          <Link 
+            to="/favorites" 
+            className={`nav-button ${isOnFavoritesPage ? 'active' : ''}`}
+          >
+            {/* Star icon */}
+            ★ Favorites
+            {/* Optional: Add count badge if you have favorites */}
+            {favoriteIds && favoriteIds.length > 0 && (
+              <span className="favorites-count">{favoriteIds.length}</span>
+            )}
+          </Link>
+    
           {timeOptions.map(option => (
             <button
               key={option.value}
@@ -68,6 +91,14 @@ const Header = ({ currentTime, setCurrentTime }) => {
       {isMobileMenuOpen && (
         <div className="mobile-menu active">
           <div className="mobile-grid">
+            {/* Add favorites link to mobile menu too */}
+            <Link
+              to="/favorites"
+              className={`nav-button ${isOnFavoritesPage ? 'active' : ''}`}
+              onClick={() => setIsMobileMenuOpen(false)}
+            >
+              ★ Favorites
+            </Link>
             {timeOptions.map(option => (
               <button
                 key={option.value}

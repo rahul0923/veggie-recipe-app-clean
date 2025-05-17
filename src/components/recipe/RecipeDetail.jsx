@@ -1,24 +1,25 @@
 import { useParams, Link } from 'react-router-dom';
-import { useEffect, useState } from 'react';
 
+import { useRecipeDetail } from '../../hooks/useRecipeDetail';
+import FavoriteButton from './FavoriteButton';
 import VideoTutorial from './VideoTutorial';
 
-import recipeData from '../../data/recipes.json';
-
-const RecipeDetail = () => {
+const RecipeDetail = ({onFavoriteToggle}) => {
   const { id } = useParams();
-  const [recipe, setRecipe] = useState(null);
-  
-  useEffect(() => {
-    // Find the recipe with the matching ID
-    const foundRecipe = recipeData.find(r => r.id === parseInt(id));
-    setRecipe(foundRecipe);
+  const { recipe, isLoading, error, handleFavoriteToggle } = useRecipeDetail(id);
+
+    // Create a handler that calls both the local toggle and parent notification
+  const handleToggle = async () => {
+    await handleFavoriteToggle();
     
-    // Scroll to top when recipe changes
-    window.scrollTo(0, 0);
-  }, [id]);
-  
-  if (!recipe) {
+    // Notify parent that favorites changed
+    if (onFavoriteToggle) {
+      onFavoriteToggle();
+    }
+  };
+
+  // Handle loading state
+  if (isLoading) {
     return (
       <div className="container">
         <div className="recipe-detail-loading">
@@ -27,7 +28,33 @@ const RecipeDetail = () => {
       </div>
     );
   }
-  
+    // Handle error state
+  if (error) {
+    return (
+      <div className="container">
+        <div className="recipe-detail-error">
+          <p>{error}</p>
+          <Link to="/" className="back-button">
+            ← Back to recipes
+          </Link>
+        </div>
+      </div>
+    );
+  }
+    // Handle recipe not found
+  if (!recipe) {
+    return (
+      <div className="container">
+        <div className="recipe-detail-error">
+          <p>Recipe not found</p>
+          <Link to="/" className="back-button">
+            ← Back to recipes
+          </Link>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="recipe-detail">
       <div className="recipe-detail-header">
@@ -37,7 +64,11 @@ const RecipeDetail = () => {
         <h1 className="recipe-detail-title">{recipe.name}</h1>
         <span className={`recipe-type ${recipe.type}`}>
           {recipe.type}
-        </span>
+        </span>          
+        <FavoriteButton 
+          recipeId={recipe.id} 
+          onToggle={handleToggle}
+        />
       </div>
       
       <div className="recipe-detail-content">
