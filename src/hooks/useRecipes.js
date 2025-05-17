@@ -1,120 +1,68 @@
-// src/hooks/useRecipes.js
-import { useState, useEffect, useCallback } from 'react'; // Add useCallback import
+// src/hooks/useRecipes.js - Platform-agnostic version
+import { useState, useEffect, useCallback } from 'react';
+
 import { recipeService } from '../services/recipeService';
+import { filterService } from '../services/filterService';
+import { ingredientService } from '../services/ingredientService';
 
 export function useRecipes(timeOfDay = '') {
-  // Original states from AppContent
   const [recipes, setRecipes] = useState([]);
   const [filteredRecipes, setFilteredRecipes] = useState([]);
   const [searchTerm, setSearchTerm] = useState('');
-  const [selectedDiet, setSelectedDiet] = useState('all'); // 'all', 'vegetarian', or 'vegan'
+  const [selectedDiet, setSelectedDiet] = useState('all');
   const [selectedIngredients, setSelectedIngredients] = useState([]);
-
-
-  // Helper function for ingredients
-  const getAllIngredients = (recipes) => {
-    const ingredientSet = new Set();
-    
-    recipes.forEach(recipe => {
-      recipe.ingredients.forEach(ingredient => {
-        // Handle both string and object ingredients
-        const ingredientName = typeof ingredient === 'string' ? ingredient : ingredient.name;
-        ingredientSet.add(ingredientName);
-      });
-    });
-    
-    return Array.from(ingredientSet).sort();
-  };
-
   const [availableIngredients, setAvailableIngredients] = useState([]);
   
-  // Update this when recipes change
-  useEffect(() => {
-    if (recipes.length > 0) {
-      setAvailableIngredients(getAllIngredients(recipes));
-    }
-  }, [recipes]);
-
   // Load all recipes initially
   useEffect(() => {
     const loadRecipes = async () => {
       const data = await recipeService.getAllRecipes();
       setRecipes(data);
+      
+      // Get all unique ingredients
+      const ingredients = ingredientService.getAllIngredients(data);
+      setAvailableIngredients(ingredients);
     };
     
     loadRecipes();
   }, []);
 
-  // This is the filtering logic from your AppContent component
+  // Apply filters whenever criteria change
   useEffect(() => {
     if (recipes.length === 0) return;
     
-    let results = [...recipes];
+    const filters = {
+      timeOfDay,
+      searchTerm,
+      selectedDiet,
+      selectedIngredients
+    };
     
-    // Filter by time of day
-    if (timeOfDay) {
-      results = results.filter(recipe => recipe.mealTime === timeOfDay);
-    }
-    
-    // Filter by diet
-    if (selectedDiet !== 'all') {
-      results = results.filter(recipe => recipe.type === selectedDiet);
-    }
-
-    // Filter by search term
-    if (searchTerm) {
-      const term = searchTerm.toLowerCase();
-      results = results.filter(recipe => 
-        recipe.name.toLowerCase().includes(term) ||
-        recipe.description.toLowerCase().includes(term) ||
-        recipe.ingredients.some(ingredient => {
-          const ingredientName = typeof ingredient === 'string' ? ingredient : ingredient.name;
-          return ingredientName.toLowerCase().includes(term);
-        })
-      );
-    }
-    
-    // Filter by selected ingredients
-    if (selectedIngredients.length > 0) {
-      results = results.filter(recipe => 
-        selectedIngredients.every(selectedIngredient => 
-          recipe.ingredients.some(ingredient => {
-            const ingredientName = typeof ingredient === 'string' ? ingredient : ingredient.name;
-            return ingredientName === selectedIngredient;
-          })
-        )
-      );
-    }
-    
+    const results = filterService.filterRecipes(recipes, filters);
     setFilteredRecipes(results);
   }, [recipes, timeOfDay, searchTerm, selectedIngredients, selectedDiet]);
 
   // Functions to handle state changes
-  const handleSearch = (term) => {
+  const handleSearch = useCallback((term) => {
     setSearchTerm(term);
-  };
+  }, []);
   
-  const handleDietChange = (diet) => {
+  const handleDietChange = useCallback((diet) => {
     setSelectedDiet(diet);
-  };
+  }, []);
   
-  const handleIngredientsChange = (ingredients) => {
+  const handleIngredientsChange = useCallback((ingredients) => {
     setSelectedIngredients(ingredients);
-  };
+  }, []);
 
-  // Add refreshRecipes function using useCallback
   const refreshRecipes = useCallback(async () => {
     try {
-      // Fetch fresh recipe data
       const freshRecipes = await recipeService.getAllRecipes();
       setRecipes(freshRecipes);
-      
-      // No need to manually apply filters here because the useEffect
-      // will automatically run when recipes state changes
     } catch (error) {
       console.error("Error refreshing recipes:", error);
     }
-  }, []); // Empty dependency array as it doesn't depend on any props or state values
+  }, []);
 
   return {
     // Data
@@ -129,8 +77,8 @@ export function useRecipes(timeOfDay = '') {
     handleSearch,
     handleDietChange,
     handleIngredientsChange,
-    refreshRecipes, // Add the refresh function to the returned object
-    // Raw setters (in case they're needed)
+    refreshRecipes,
+    // Raw settings
     setSearchTerm,
     setSelectedDiet,
     setSelectedIngredients
