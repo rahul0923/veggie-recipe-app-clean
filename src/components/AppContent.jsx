@@ -67,17 +67,9 @@ function AppContent() {
 
   // Create stable handler functions with useCallback
   const handleSearchWithURL = useCallback((term) => {
+    // Just update the internal state, no URL changes
     handleSearch(term);
-    
-    // Update URL
-    const params = new URLSearchParams(location.search);
-    if (term) {
-      params.set('search', term);
-    } else {
-      params.delete('search');
-    }
-    navigate(`/?${params.toString()}`);
-  }, [location.search, navigate, handleSearch]);
+  }, [handleSearch]);
   
   const handleTimeChange = useCallback((newTime) => {
     setTimeOfDay(newTime);

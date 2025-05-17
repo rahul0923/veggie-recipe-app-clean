@@ -18,6 +18,8 @@ GreenPlate is a vegetarian and vegan recipe app built with React and Vite. It al
 
 ## Development Journal
 
+### 2025-05-17 Fix search bar where we had to press backspace again to remove the first character
+Remove URL updates for search terms
 
 ### 2025-05-17 Fix a bug on Ingredients Filter component
 When user selected the checkbox of ingredients the url would also update and the entire page would go in a loop crashing the browser eventually.
