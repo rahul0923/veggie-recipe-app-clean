@@ -1,0 +1,23 @@
+/* Main Import File - Import all CSS modules here */
+
+/* Core Styles */
+@import 'variables.css';
+@import 'base.css';
+@import 'animations.css';
+@import 'layout.css';
+
+/* Components */
+@import 'header.css';
+@import 'footer.css';
+@import 'mobile-menu.css';
+@import 'search-filter.css';
+@import 'recipe-cards.css';
+@import 'recipe-detail.css';
+@import 'filters.css';
+@import 'diet-filter.css';
+@import 'favorite.css';
+@import 'video-components.css';
+@import 'empty-states.css';
+
+/* Responsive Layout */
+@import 'responsive.css';

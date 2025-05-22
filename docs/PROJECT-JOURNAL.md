@@ -18,6 +18,86 @@ GreenPlate is a vegetarian and vegan recipe app built with React and Vite. It al
 
 ## Development Journal
 
+### 2025-05-21 Migration Steps Summary
+
+## Create Backup and New Branch
+```bash
+# Create backup
+git add .
+git commit -m "Pre-refactor backup - current working state"
+git push origin main
+
+# Create new branch for refactoring
+git checkout -b cross-platform-refactor
+## Create the new folder structure
+```
+
+## Create New Folder Structure
+
+```bash
+# Create core folders
+mkdir -p src/core/services
+mkdir -p src/core/hooks  
+mkdir -p src/core/contexts
+mkdir -p src/core/models
+mkdir -p src/core/utils
+
+# Create platform folders
+mkdir -p src/platforms/web/components
+mkdir -p src/platforms/web/pages
+mkdir -p src/platforms/web/styles
+mkdir -p src/platforms/web/adapters
+mkdir -p src/platforms/web/hooks
+
+# Create shared folders
+mkdir -p src/shared/components
+
+# Future native folder (don't create yet)
+# mkdir -p src/platforms/native/...
+```
+
+## Move Existing Files
+``` bash
+# Copy services to core
+cp -r src/services/* src/core/services/
+
+# Copy contexts to core  
+cp -r src/context/* src/core/contexts/
+
+# Copy hooks to core (we'll refactor these)
+cp -r src/hooks/* src/core/hooks/
+
+# Copy CSS to web platform
+cp -r src/css/* src/platforms/web/styles/
+
+# Copy components to web platform
+cp -r src/components/* src/platforms/web/components/
+```
+
+## Update Main CSS Import
+Update src/platforms/web/styles/main.css to have the correct import paths:
+
+## Update App.jsx Import
+Update src/App.jsx to import from the new location
+
+## Update AppContent.jsx Imports
+Copy existing src/components/AppContent.jsx to src/platforms/web/components/AppContent.jsx and update all imports
+
+## Create Web Pages Folder
+Move your FavoritesPage to the new location:
+
+``` bash
+mkdir -p src/platforms/web/pages
+cp src/components/pages/FavoritesPage.jsx src/platforms/web/pages/
+```
+
+## Test Current State
+```
+npm run dev
+```
+
+At this point, app should still work exactly as before, but with the new folder structure.
+
 ### 2025-05-17 Areas for Further Improvement
 
 #### 1. Create a more comprehensive service layer

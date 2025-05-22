@@ -1,0 +1,237 @@
+/* Responsive Layout */
+/* First, ensure mobile menu is hidden by default when not active */
+.mobile-menu {
+  display: none; /* Hidden by default unless toggled */
+}
+
+/* Keep all your original media queries first */
+
+/* Now add mobile-specific fixes with max-width */
+@media (max-width: 639px) {
+  /* Prevent horizontal scroll */
+  html, body {
+    overflow-x: hidden;
+  }
+
+  /* Mobile menu improvements */
+  .mobile-menu {
+    background-color: var(--primary-600);
+    padding: 1rem;
+    width: 100%;
+    box-sizing: border-box;
+  }
+
+  .mobile-grid {
+    width: 100%;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.75rem;
+    margin: 0 auto;
+  }
+
+  .mobile-grid .nav-button {
+    width: 100%;
+    text-align: center;
+    padding: 0.75rem 0.5rem; /* Reduced horizontal padding */
+    border-radius: 0.5rem;
+    font-size: 0.9rem;
+    margin: 0; /* Remove any margins */
+    box-sizing: border-box;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  /* Fix header sizing */
+  .header-content {
+    padding: 1rem;
+  }
+
+  /* Search bar fixes */
+  .search-container {
+    width: 100%;
+  }
+
+  .search-input {
+    width: 100%;
+    box-sizing: border-box;
+  }
+
+  /* Recipe grid on mobile */
+  .recipe-grid {
+    grid-template-columns: 1fr;
+  }
+
+  /* Filter button takes full width */
+  .filter-button {
+    width: 100%;
+    margin-top: 0.5rem;
+  }
+
+  /* Smaller headings on mobile */
+  .page-heading {
+    font-size: 1.5rem;
+    margin: 1.5rem 0;
+  }
+}
+
+@media (min-width: 640px) {
+  .footer-content {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  
+  .footer-bottom {
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .diet-options {
+    flex-direction: row;
+    gap: 1.5rem;
+  }
+}
+
+@media (max-width: 767px) {
+  .mobile-menu.active {
+    display: block;
+  }
+}
+@media (min-width: 768px) {
+
+  .mobile-menu {
+    display: none !important;
+  }
+
+  .container {
+    padding: 0 3rem;
+  }
+  
+  .nav {
+    display: flex !important;
+    gap: 1.5rem;
+  }
+  
+  .mobile-menu-button {
+    display: none !important;
+  }
+  
+  .recipe-detail-content {
+    grid-template-columns: 1fr 1fr;
+    align-items: start;
+  }
+  
+  .recipe-detail-image-container {
+    position: sticky;
+    top: 2rem;
+  }
+  
+  .recipe-detail-header {
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+  }
+  
+  .recipe-detail-title {
+    order: 1;
+  }
+  
+  .back-button {
+    order: 0;
+  }
+  
+  .recipe-type {
+    order: 2;
+  }
+  
+  .recipe-detail-info {
+    flex: 1;
+  }
+  
+  .search-and-filter {
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+  }
+  
+  .video-container {
+    border-radius: 0.75rem;
+  }
+}
+
+/* Fix truncation issues for medium-sized screens */
+@media (max-width: 948px) {
+  /* Add padding to container */
+  .container {
+    padding-left: 1rem;
+    padding-right: 1rem;
+    width: auto; /* Override any fixed width */
+    box-sizing: border-box;
+  }
+  
+  /* Ensure search and filter section doesn't overflow */
+  .search-and-filter {
+    padding-left: 0.5rem;
+    padding-right: 0.5rem;
+    width: 100%;
+    box-sizing: border-box;
+  }
+  
+  /* Make filter button more responsive */
+  .filter-button {
+    padding-left: 1rem;
+    padding-right: 1rem;
+    min-width: 120px; /* Set a minimum width */
+    white-space: nowrap;
+  }
+  
+  /* Fix recipe grid to prevent truncation */
+  .recipe-grid {
+    padding-right: 0.5rem;
+    width: 100%;
+    box-sizing: border-box;
+  }
+  
+  /* Ensure recipe cards don't get truncated */
+  .recipe-card {
+    width: 100%;
+    box-sizing: border-box;
+    margin-right: 0;
+  }
+}
+
+/* Additional fix for screens between 760px and 948px */
+@media (min-width: 760px) and (max-width: 948px) {
+  .recipe-grid {
+    grid-template-columns: repeat(2, 1fr); /* Force 2 columns in this range */
+    gap: 1rem; /* Slightly reduce gap to fit better */
+  }
+}
+
+@media (min-width: 1024px) {
+  .footer-content {
+    grid-template-columns: 2fr 1fr 1fr 1fr;
+  }
+
+  .recipe-detail-content {
+    grid-template-columns: 5fr 7fr;
+  }
+}
+
+@media (min-width: 1200px) {
+  .container {
+    padding: 0 6rem;
+    width: 90%;
+    max-width: 1600px;
+  }
+  
+  .recipe-detail-content {
+    grid-template-columns: 1fr 1fr;
+    max-width: 1600px;
+    margin: 0 auto;
+  }
+  
+  .recipe-detail-image-container {
+    max-width: 100%;
+  }
+}
