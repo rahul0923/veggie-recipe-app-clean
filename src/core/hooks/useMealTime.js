@@ -1,10 +1,10 @@
-// src/hooks/useMealTime.js
+// src/core/hooks/useMealTime.js
 import { useState, useEffect } from 'react';
 
 export function useMealTime() {
   const [timeOfDay, setTimeOfDay] = useState('');
   
-  // Auto-detect time of day
+  // Auto-detect time of day on initial load only
   useEffect(() => {
     if (!timeOfDay) {
       const determineTimeOfDay = () => {

@@ -22,6 +22,8 @@ function AppContent() {
   
   // Use our custom hooks
   const { timeOfDay, setTimeOfDay } = useMealTime();
+  
+  // IMPORTANT: Pass the current timeOfDay to useRecipes
   const { 
     filteredRecipes, 
     searchTerm, 
@@ -31,12 +33,13 @@ function AppContent() {
     handleSearch,
     handleDietChange,
     handleIngredientsChange,
-    refreshRecipes // Add this to useRecipes hook if not already there
-  } = useRecipes(timeOfDay);
+    refreshRecipes,
+    isLoading,
+    error
+  } = useRecipes(timeOfDay); // Pass current timeOfDay here
 
   // Function to refresh recipe list after favorites change
   const handleFavoriteToggle = async () => {
-    // Use the refreshRecipes function from the hook
     await refreshRecipes();
   };
 
@@ -67,7 +70,6 @@ function AppContent() {
 
   // Create stable handler functions with useCallback
   const handleSearchWithURL = useCallback((term) => {
-    // Just update the internal state, no URL changes
     handleSearch(term);
   }, [handleSearch]);
   
@@ -96,15 +98,51 @@ function AppContent() {
     }
     navigate(`/?${params.toString()}`);
   }, [location.search, navigate, handleDietChange]);
-  
 
   const handleIngredientsChangeWithURL = useCallback((ingredients) => {
-    // Only update state, don't update URL for ingredients
     handleIngredientsChange(ingredients);
-    
-    // Skip the URL update part completely
-    // This prevents the navigation -> state update -> render -> navigation cycle
   }, [handleIngredientsChange]);
+
+  // Loading state
+  if (isLoading) {
+    return (
+      <>
+        <Header currentTime={timeOfDay} setCurrentTime={handleTimeChange} />
+        <main className="container">
+          <div className="loading-state">
+            <p>Loading recipes...</p>
+          </div>
+        </main>
+        <Footer 
+          currentTime={timeOfDay} 
+          selectedDiet={selectedDiet}   
+          handleTimeChange={handleTimeChange}
+          handleDietChange={handleDietChangeWithURL}         
+        />
+      </>
+    );
+  }
+
+  // Error state
+  if (error) {
+    return (
+      <>
+        <Header currentTime={timeOfDay} setCurrentTime={handleTimeChange} />
+        <main className="container">
+          <div className="error-state">
+            <p>Error: {error}</p>
+            <button onClick={refreshRecipes}>Try Again</button>
+          </div>
+        </main>
+        <Footer 
+          currentTime={timeOfDay} 
+          selectedDiet={selectedDiet}   
+          handleTimeChange={handleTimeChange}
+          handleDietChange={handleDietChangeWithURL}         
+        />
+      </>
+    );
+  }
 
   const HomePage = () => (
     <>
@@ -141,7 +179,8 @@ function AppContent() {
       )}
 
       <h2 className="page-heading">
-        {timeOfDay === 'snack' ? 'Evening Snacks' : `${timeOfDay} Recipes`}
+        {timeOfDay === 'snack' ? 'Evening Snacks' : 
+         timeOfDay ? `${timeOfDay} Recipes` : 'All Recipes'}
         {selectedDiet !== 'all' && ` (${selectedDiet} only)`}
         {searchTerm && ` matching "${searchTerm}"`}
         {selectedIngredients.length > 0 && ` with ${selectedIngredients.join(', ')}`}
@@ -161,9 +200,11 @@ function AppContent() {
           <p className="empty-message">
             {searchTerm || selectedIngredients.length > 0 || selectedDiet !== 'all'
               ? `No recipes found with the current filters. Try adjusting your search or filters.` 
-              : `No recipes found for ${timeOfDay}.`}
+              : timeOfDay 
+                ? `No recipes found for ${timeOfDay}.`
+                : 'No recipes available.'}
           </p>
-          {/* Add the Reset Filters Button here */}
+          {/* Reset Filters Button */}
           {(searchTerm || selectedIngredients.length > 0 || selectedDiet !== 'all') && (
             <button
               className="reset-filters-button"

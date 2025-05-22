@@ -1,13 +1,16 @@
-// src/hooks/useRecipes.js - Platform-agnostic version
+// src/core/hooks/useRecipes.js - Platform-agnostic version
 import { useState, useEffect, useCallback } from 'react';
-
 import { recipeService } from '../services/recipeService';
 import { filterService } from '../services/filterService';
 import { ingredientService } from '../services/ingredientService';
 
-export function useRecipes(timeOfDay = '') {
+export function useRecipes(currentTimeOfDay = '') {
   const [recipes, setRecipes] = useState([]);
   const [filteredRecipes, setFilteredRecipes] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState(null);
+  
+  // Filter state - DON'T manage timeOfDay here, use the passed parameter
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedDiet, setSelectedDiet] = useState('all');
   const [selectedIngredients, setSelectedIngredients] = useState([]);
@@ -16,23 +19,33 @@ export function useRecipes(timeOfDay = '') {
   // Load all recipes initially
   useEffect(() => {
     const loadRecipes = async () => {
-      const data = await recipeService.getAllRecipes();
-      setRecipes(data);
+      setIsLoading(true);
+      setError(null);
       
-      // Get all unique ingredients
-      const ingredients = ingredientService.getAllIngredients(data);
-      setAvailableIngredients(ingredients);
+      try {
+        const data = await recipeService.getAllRecipes();
+        setRecipes(data);
+        
+        // Get all unique ingredients
+        const ingredients = ingredientService.getAllIngredients(data);
+        setAvailableIngredients(ingredients);
+      } catch (err) {
+        setError('Failed to load recipes');
+        console.error('Error loading recipes:', err);
+      } finally {
+        setIsLoading(false);
+      }
     };
     
     loadRecipes();
   }, []);
 
-  // Apply filters whenever criteria change
+  // Apply filters whenever criteria change - use currentTimeOfDay parameter
   useEffect(() => {
     if (recipes.length === 0) return;
     
     const filters = {
-      timeOfDay,
+      timeOfDay: currentTimeOfDay, // Use the parameter, not local state
       searchTerm,
       selectedDiet,
       selectedIngredients
@@ -40,9 +53,9 @@ export function useRecipes(timeOfDay = '') {
     
     const results = filterService.filterRecipes(recipes, filters);
     setFilteredRecipes(results);
-  }, [recipes, timeOfDay, searchTerm, selectedIngredients, selectedDiet]);
+  }, [recipes, currentTimeOfDay, searchTerm, selectedIngredients, selectedDiet]);
 
-  // Functions to handle state changes
+  // Functions to handle state changes - NO URL updates here
   const handleSearch = useCallback((term) => {
     setSearchTerm(term);
   }, []);
@@ -60,27 +73,37 @@ export function useRecipes(timeOfDay = '') {
       const freshRecipes = await recipeService.getAllRecipes();
       setRecipes(freshRecipes);
     } catch (error) {
+      setError('Failed to refresh recipes');
       console.error("Error refreshing recipes:", error);
     }
+  }, []);
+
+  const resetFilters = useCallback(() => {
+    setSearchTerm('');
+    setSelectedDiet('all');
+    setSelectedIngredients([]);
+    // Note: We don't reset timeOfDay here since it's managed externally
   }, []);
 
   return {
     // Data
     recipes,
     filteredRecipes,
-    // State values
+    availableIngredients,
+    isLoading,
+    error,
+    
+    // Current filter values - return the parameter for timeOfDay
+    timeOfDay: currentTimeOfDay,
     searchTerm,
     selectedDiet,
     selectedIngredients,
-    availableIngredients,
-    // Handler functions
+    
+    // Update functions - these DON'T handle URLs or timeOfDay
     handleSearch,
     handleDietChange,
     handleIngredientsChange,
-    refreshRecipes,
-    // Raw settings
-    setSearchTerm,
-    setSelectedDiet,
-    setSelectedIngredients
+    resetFilters,
+    refreshRecipes
   };
 }

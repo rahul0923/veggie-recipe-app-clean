@@ -20,6 +20,25 @@ GreenPlate is a vegetarian and vegan recipe app built with React and Vite. It al
 
 ### 2025-05-21 Migration Steps Summary
 
+## Fix issues 
+### Summary of Changes
+
+The main issue was in the data flow between your hooks. Here's what I fixed:
+
+AppContent.jsx:
+
+Now properly passes the current timeOfDay from useMealTime to useRecipes(timeOfDay)
+Added loading and error handling states
+Fixed the page heading logic
+
+
+useRecipes.js:
+
+Changed parameter name from initialTimeOfDay to currentTimeOfDay for clarity
+Removed internal timeOfDay state management (since it's managed by useMealTime)
+Uses the passed currentTimeOfDay parameter directly in the filtering effect
+Returns the current timeOfDay parameter in the hook's return object
+
 ## Create Backup and New Branch
 ```bash
 # Create backup
