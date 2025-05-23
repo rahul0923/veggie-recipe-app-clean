@@ -19,6 +19,15 @@ GreenPlate is a vegetarian and vegan recipe app built with React and Vite. It al
 ## Development Journal
 
 ### 2025-05-22 
+## Phase 3: Complete Core Layer
+Examined the remaining platform components to ensure they're truly just thin wrappers around core logic.
+
+Looking at your remaining src/platforms/web/components/:
+
+Header.jsx - Navigation with React Router
+Footer.jsx - Footer navigation
+RecipeCard.jsx - Container for RecipeCardView
+RecipeDetail.jsx - Recipe detail with routing logic
 
 ## Remove unused files and folders
 ## Moved pure components to src/shared/components folder

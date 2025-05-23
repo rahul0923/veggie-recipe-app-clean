@@ -2,6 +2,11 @@
 
 import { Link, useLocation } from 'react-router-dom';
 
+import { 
+  MEAL_TIME_OPTIONS,
+  DIET_OPTIONS 
+} from '../../../core/constants/appConstants';
+
 const Footer = ({ currentTime, selectedDiet, handleTimeChange, handleDietChange }) => {
   const currentYear = new Date().getFullYear();
   const location = useLocation();
@@ -35,55 +40,35 @@ const Footer = ({ currentTime, selectedDiet, handleTimeChange, handleDietChange 
             >
               All Recipes
             </div>
-            <div 
-              className={`footer-link ${currentTime === 'breakfast' ? 'footer-link-active' : ''}`}
-              onClick={() => handleTimeChange('breakfast')}
-              style={{ cursor: 'pointer', marginBottom: '0.75rem' }}
-            >
-              Breakfast
-            </div>
-            <div 
-              className={`footer-link ${currentTime === 'lunch' ? 'footer-link-active' : ''}`}
-              onClick={() => handleTimeChange('lunch')}
-              style={{ cursor: 'pointer', marginBottom: '0.75rem' }}
-            >
-              Lunch
-            </div>
-            <div 
-              className={`footer-link ${currentTime === 'snack' ? 'footer-link-active' : ''}`}
-              onClick={() => handleTimeChange('snack')}
-              style={{ cursor: 'pointer', marginBottom: '0.75rem' }}
-            >
-              Snacks
-            </div>
-            <div 
-              className={`footer-link ${currentTime === 'dinner' ? 'footer-link-active' : ''}`}
-              onClick={() => handleTimeChange('dinner')}
-              style={{ cursor: 'pointer', marginBottom: '0.75rem' }}
-            >
-              Dinner
-            </div>
+            {/* Use MEAL_TIME_OPTIONS array */}
+            {MEAL_TIME_OPTIONS.map(option => (
+              <div 
+                key={option.value}
+                className={`footer-link ${currentTime === option.value ? 'footer-link-active' : ''}`}
+                onClick={() => handleTimeChange(option.value)}
+                style={{ cursor: 'pointer', marginBottom: '0.75rem' }}
+              >
+                {option.label}
+              </div>
+            ))}
           </nav>
         </div>
         
         <div className="footer-section">
           <h4 className="footer-heading">Diet Types</h4>
           <nav className="footer-nav">
-            <div 
-              className={`footer-link ${selectedDiet === 'vegetarian' ? 'footer-link-active' : ''}`}
-              onClick={() => handleDietChange('vegetarian')}
-              style={{ cursor: 'pointer', marginBottom: '0.75rem' }}
-            >
-              Vegetarian
-            </div>
-            <div 
-              className={`footer-link ${selectedDiet === 'vegan' ? 'footer-link-active' : ''}`}
-              onClick={() => handleDietChange('vegan')}
-              style={{ cursor: 'pointer', marginBottom: '0.75rem' }}
-            >
-              Vegan
-            </div>
-                        {/* Add Favorites link */}
+            {/* Use DIET_OPTIONS array, but skip 'all' option (index 0) */}
+            {DIET_OPTIONS.slice(1).map(option => (
+              <div 
+                key={option.value}
+                className={`footer-link ${selectedDiet === option.value ? 'footer-link-active' : ''}`}
+                onClick={() => handleDietChange(option.value)}
+                style={{ cursor: 'pointer', marginBottom: '0.75rem' }}
+              >
+                {option.label}
+              </div>
+            ))}
+            {/* Add Favorites link */}
             <Link 
               to="/favorites"
               className={`footer-link ${isOnFavoritesPage ? 'footer-link-active' : ''}`}

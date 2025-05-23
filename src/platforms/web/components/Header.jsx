@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 
 import { useFavorites } from '../../../core/contexts/FavoritesContext';
+import { MEAL_TIME_OPTIONS } from '../../../core/constants/appConstants';
 
 const Header = ({ currentTime, setCurrentTime }) => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -14,13 +15,6 @@ const Header = ({ currentTime, setCurrentTime }) => {
 
   // Check if we're on the favorites page
   const isOnFavoritesPage = location.pathname === '/favorites';
-
-  const timeOptions = [
-    { value: 'breakfast', label: 'Breakfast' },
-    { value: 'lunch', label: 'Lunch' },
-    { value: 'snack', label: 'Snacks' },
-    { value: 'dinner', label: 'Dinner' }
-  ];
 
   const handleTimeChange = (newTime) => {
     setCurrentTime(newTime);
@@ -75,7 +69,7 @@ const Header = ({ currentTime, setCurrentTime }) => {
             )}
           </Link>
     
-          {timeOptions.map(option => (
+          {MEAL_TIME_OPTIONS.map(option => (
             <button
               key={option.value}
               className={`nav-button ${currentTime === option.value ? 'active' : ''}`}
@@ -99,7 +93,7 @@ const Header = ({ currentTime, setCurrentTime }) => {
             >
               ★ Favorites
             </Link>
-            {timeOptions.map(option => (
+            {MEAL_TIME_OPTIONS.map(option => (
               <button
                 key={option.value}
                 className={`nav-button ${currentTime === option.value ? 'active' : ''}`}

@@ -1,24 +1,36 @@
-import { useParams, Link } from 'react-router-dom';
-
+// src/platforms/web/components/RecipeDetail.jsx
+// Platform-specific container with routing logic
+import { useParams, useNavigate } from 'react-router-dom';
 import { useRecipeDetail } from '../../../core/hooks/useRecipeDetail';
-import FavoriteButton from '../../../shared/components/FavoriteButton';
-import VideoTutorial from '../../../shared/components/VideoTutorial';
+import { useFavorites } from '../../../core/contexts/FavoritesContext';
+import RecipeDetailView from '../../../core/components/RecipeDetailView';
 
-const RecipeDetail = ({onFavoriteToggle}) => {
+const RecipeDetail = ({ onFavoriteToggle }) => {
   const { id } = useParams();
-  const { recipe, isLoading, error, handleFavoriteToggle } = useRecipeDetail(id);
-
-    // Create a handler that calls both the local toggle and parent notification
-  const handleToggle = async () => {
-    await handleFavoriteToggle();
+  const navigate = useNavigate();
+  const { recipe, isLoading, error } = useRecipeDetail(id);
+  const { isFavorite, toggleFavorite } = useFavorites();
+  
+  // Platform-specific navigation handlers
+  const handleBack = () => {
+    navigate(-1); // or navigate('/') for always going home
+  };
+  
+  const handleToggleFavorite = async (recipeId) => {
+    toggleFavorite(recipeId);
     
-    // Notify parent that favorites changed
+    // Notify parent if needed
     if (onFavoriteToggle) {
       onFavoriteToggle();
     }
   };
+  
+  const handleVideoClick = (videoUrl) => {
+    // Platform-specific: open in new tab on web
+    window.open(videoUrl, '_blank', 'noopener,noreferrer');
+  };
 
-  // Handle loading state
+  // Loading state
   if (isLoading) {
     return (
       <div className="container">
@@ -28,117 +40,30 @@ const RecipeDetail = ({onFavoriteToggle}) => {
       </div>
     );
   }
-    // Handle error state
-  if (error) {
+  
+  // Error state
+  if (error || !recipe) {
     return (
       <div className="container">
         <div className="recipe-detail-error">
-          <p>{error}</p>
-          <Link to="/" className="back-button">
+          <p>{error || 'Recipe not found'}</p>
+          <button onClick={handleBack} className="back-button">
             ← Back to recipes
-          </Link>
-        </div>
-      </div>
-    );
-  }
-    // Handle recipe not found
-  if (!recipe) {
-    return (
-      <div className="container">
-        <div className="recipe-detail-error">
-          <p>Recipe not found</p>
-          <Link to="/" className="back-button">
-            ← Back to recipes
-          </Link>
+          </button>
         </div>
       </div>
     );
   }
 
+  // Render the presentational component with platform-specific handlers
   return (
-    <div className="recipe-detail">
-      <div className="recipe-detail-header">
-        <Link to="/" className="back-button">
-          ← Back to recipes
-        </Link>
-        <h1 className="recipe-detail-title">{recipe.name}</h1>
-        <span className={`recipe-type ${recipe.type}`}>
-          {recipe.type}
-        </span>          
-        <FavoriteButton 
-          recipeId={recipe.id} 
-          onToggle={handleToggle}
-        />
-      </div>
-      
-      <div className="recipe-detail-content">
-        <div className="recipe-detail-image-container">
-          <img 
-            src={recipe.imageUrl} 
-            alt={recipe.name} 
-            className="recipe-detail-image" 
-          />
-        </div>
-        
-        <div className="recipe-detail-info">
-          <div className="recipe-detail-description">
-            <h2>Description</h2>
-            <p>{recipe.description}</p>
-          </div>
-          
-          <div className="recipe-detail-meta">
-            <div className="meta-item">
-              <span className="meta-label">Prep Time:</span>
-              <span className="meta-value">{recipe.prepTime}</span>
-            </div>
-            <div className="meta-item">
-              <span className="meta-label">Meal:</span>
-              <span className="meta-value">{recipe.mealTime}</span>
-            </div>
-          </div>
-
-          {recipe.videoUrl && <VideoTutorial videoUrl={recipe.videoUrl} />}
-
-          <div className="recipe-detail-ingredients">
-            <h2>Ingredients</h2>
-            <ul className="ingredients-list">
-              {recipe.ingredients.map((ingredient, index) => (
-                <li key={index} className="ingredient-item">
-                  {typeof ingredient === 'string' ? ingredient : ingredient.name}
-                </li>
-              ))}
-            </ul>
-          </div>
-          
-          {recipe.instructions && recipe.instructions.length > 0 && (
-            <div className="recipe-detail-instructions">
-              <h2>Instructions</h2>
-              <ol className="instructions-list">
-                {recipe.instructions.map((step, index) => (
-                  <li key={index} className="instruction-step">
-                    {step}
-                  </li>
-                ))}
-              </ol>
-            </div>
-          )}
-          
-          {recipe.videoUrl && (
-            <div className="recipe-detail-video">
-              <h2>Video Tutorial</h2>
-              <a 
-                href={recipe.videoUrl} 
-                target="_blank" 
-                rel="noopener noreferrer"
-                className="video-link"
-              >
-                Watch video tutorial
-              </a>
-            </div>
-          )}
-        </div>
-      </div>
-    </div>
+    <RecipeDetailView
+      recipe={recipe}
+      isFavorite={isFavorite(recipe.id)}
+      onBack={handleBack}
+      onToggleFavorite={handleToggleFavorite}
+      onVideoClick={handleVideoClick}
+    />
   );
 };
 
