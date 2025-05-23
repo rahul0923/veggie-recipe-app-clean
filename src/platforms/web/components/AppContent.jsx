@@ -6,9 +6,9 @@ import Header from './Header';
 import Footer from './Footer';
 import RecipeCard from './RecipeCard';
 import RecipeDetail from './RecipeDetail';
-import DietFilter from './DietFilter';
-import SearchBar from './SearchBar';
-import IngredientFilter from './IngredientFilter';
+import DietFilter from '../../../shared/components/DietFilter';
+import SearchBar from '../../../shared/components/SearchBar';
+import IngredientFilter from '../../../shared/components/IngredientFilter';
 import FavoritesPage from '../pages/FavoritesPage';
 
 import { useMealTime } from '../../../core/hooks/useMealTime';

@@ -1,7 +1,7 @@
 // src/components/ui/IngredientFilter.jsx
 import { memo, useMemo } from 'react';
 
-import { useIngredientFilter } from '../../../core/hooks/useIngredientFilter';
+import { useIngredientFilter } from '../../core/hooks/useIngredientFilter';
 
 const IngredientFilter = ({ availableIngredients, selectedIngredients, onChange }) => {
   // Use the custom hook with memoized props

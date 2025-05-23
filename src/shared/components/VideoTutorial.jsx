@@ -1,4 +1,4 @@
-// src/components/recipe/VideoTutorial.jsx
+// src/shared/components/VideoTutorial.jsx
 import React from 'react';
 
 const VideoTutorial = ({ videoUrl }) => {

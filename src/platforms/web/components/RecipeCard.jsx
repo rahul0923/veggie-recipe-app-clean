@@ -2,7 +2,7 @@
 import { useNavigate } from 'react-router-dom';
 
 import { useFavorites } from '../../../core/contexts/FavoritesContext';
-import RecipeCardView from './RecipeCardView';
+import RecipeCardView from '../../../shared/components/RecipeCardView';
 
 const RecipeCard = ({ recipe }) => {
   const navigate = useNavigate();

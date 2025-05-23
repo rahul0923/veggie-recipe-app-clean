@@ -1,4 +1,4 @@
-// src/components/recipe/RecipeCardView.jsx - Presentational component
+// src/shared/components/RecipeCardView.jsx - Presentational component
 import { memo } from 'react';
 import { PlayCircleIcon } from '@heroicons/react/24/outline';
 

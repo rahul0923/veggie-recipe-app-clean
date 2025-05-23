@@ -1,8 +1,8 @@
 import { useParams, Link } from 'react-router-dom';
 
 import { useRecipeDetail } from '../../../core/hooks/useRecipeDetail';
-import FavoriteButton from './FavoriteButton';
-import VideoTutorial from './VideoTutorial';
+import FavoriteButton from '../../../shared/components/FavoriteButton';
+import VideoTutorial from '../../../shared/components/VideoTutorial';
 
 const RecipeDetail = ({onFavoriteToggle}) => {
   const { id } = useParams();

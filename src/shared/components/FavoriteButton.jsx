@@ -1,6 +1,7 @@
-// src/components/recipe/FavoriteButton.jsx
+// src/shared/components/FavoriteButton.jsx
 import { memo, useCallback } from 'react';
-import { useFavorites } from '../../../core/contexts/FavoritesContext';
+
+import { useFavorites } from '../../core/contexts/FavoritesContext';
 
 const FavoriteButton = ({ recipeId }) => {
 
