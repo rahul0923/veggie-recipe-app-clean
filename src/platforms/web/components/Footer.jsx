@@ -1,5 +1,4 @@
-// src/components/layout/Footer.jsx - updated to match AppContent.jsx
-
+// src/platforms/web/components/Footer.jsx
 import { Link, useLocation } from 'react-router-dom';
 
 import { 
@@ -11,7 +10,7 @@ const Footer = ({ currentTime, selectedDiet, handleTimeChange, handleDietChange 
   const currentYear = new Date().getFullYear();
   const location = useLocation();
   
-  // Check if on favorites page
+  // Check if on favorites page - web-specific routing logic
   const isOnFavoritesPage = location.pathname === '/favorites';
 
   return (
@@ -40,7 +39,6 @@ const Footer = ({ currentTime, selectedDiet, handleTimeChange, handleDietChange 
             >
               All Recipes
             </div>
-            {/* Use MEAL_TIME_OPTIONS array */}
             {MEAL_TIME_OPTIONS.map(option => (
               <div 
                 key={option.value}
@@ -57,7 +55,6 @@ const Footer = ({ currentTime, selectedDiet, handleTimeChange, handleDietChange 
         <div className="footer-section">
           <h4 className="footer-heading">Diet Types</h4>
           <nav className="footer-nav">
-            {/* Use DIET_OPTIONS array, but skip 'all' option (index 0) */}
             {DIET_OPTIONS.slice(1).map(option => (
               <div 
                 key={option.value}
@@ -68,7 +65,6 @@ const Footer = ({ currentTime, selectedDiet, handleTimeChange, handleDietChange 
                 {option.label}
               </div>
             ))}
-            {/* Add Favorites link */}
             <Link 
               to="/favorites"
               className={`footer-link ${isOnFavoritesPage ? 'footer-link-active' : ''}`}

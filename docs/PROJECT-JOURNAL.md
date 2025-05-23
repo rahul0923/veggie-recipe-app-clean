@@ -19,6 +19,17 @@ GreenPlate is a vegetarian and vegan recipe app built with React and Vite. It al
 ## Development Journal
 
 ### 2025-05-22 
+
+## Completing Phase 3
+
+- Implement the two new hooks 
+- Refactor AppContent.jsx and FavoritesPage.jsx
+- Test thoroughly to ensure all functionality works as expected
+
+- Create a useHomePageContent hook to extract more logic from AppContent
+- Create a web-specific navigation hook for URL handling
+- Refine Footer, Header, and other components to be even thinner wrappers
+
 ## Phase 3: Complete Core Layer
 Examined the remaining platform components to ensure they're truly just thin wrappers around core logic.
 

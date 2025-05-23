@@ -1,45 +1,28 @@
+// src/platforms/web/components/Header.jsx
 import { useState } from 'react';
-import { Link, useNavigate, useLocation } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 import { useFavorites } from '../../../core/contexts/FavoritesContext';
 import { MEAL_TIME_OPTIONS } from '../../../core/constants/appConstants';
+import { useWebNavigation } from '../hooks/useWebNavigation';
 
 const Header = ({ currentTime, setCurrentTime }) => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const navigate = useNavigate();
-  const location = useLocation();
-
-
-  // Optionally use the favorites context to show count
-  const { favoriteIds } = useFavorites ? useFavorites() : { favoriteIds: [] };
-
-  // Check if we're on the favorites page
+  const { favoriteIds } = useFavorites();
+  const { navigate, location } = useWebNavigation();
+  
+  // Check if we're on the favorites page - this is web-specific routing logic
   const isOnFavoritesPage = location.pathname === '/favorites';
 
   const handleTimeChange = (newTime) => {
     setCurrentTime(newTime);
-    // Create a new URLSearchParams object from the current search
-    const queryParams = new URLSearchParams(location.search);
-    
-    // Update or remove the meal parameter
-    if (newTime) {
-      queryParams.set('meal', newTime);
-    } else {
-      queryParams.delete('meal');
-    }
-    
-    // Preserve other query parameters
-    const newSearch = queryParams.toString();
-    const newURL = newSearch ? `/?${newSearch}` : '/';
-    
-    navigate(newURL); // Navigate back to the home page
     setIsMobileMenuOpen(false);
   };
 
   return (
     <header className="header">
       <div className="header-content">
-      <Link to="/" className="logo-link" style={{ textDecoration: 'none' }}>
+        <Link to="/" className="logo-link" style={{ textDecoration: 'none' }}>
           <div className="logo">
             GreenPlate
             <span className="logo-badge">Veg & Vegan</span>
@@ -56,14 +39,12 @@ const Header = ({ currentTime, setCurrentTime }) => {
         
         {/* Desktop navigation */}
         <nav className="nav">
-          {/* Add favorites link */}
+          {/* Favorites link */}
           <Link 
             to="/favorites" 
             className={`nav-button ${isOnFavoritesPage ? 'active' : ''}`}
           >
-            {/* Star icon */}
             ★ Favorites
-            {/* Optional: Add count badge if you have favorites */}
             {favoriteIds && favoriteIds.length > 0 && (
               <span className="favorites-count">{favoriteIds.length}</span>
             )}
@@ -85,7 +66,6 @@ const Header = ({ currentTime, setCurrentTime }) => {
       {isMobileMenuOpen && (
         <div className="mobile-menu active">
           <div className="mobile-grid">
-            {/* Add favorites link to mobile menu too */}
             <Link
               to="/favorites"
               className={`nav-button ${isOnFavoritesPage ? 'active' : ''}`}
